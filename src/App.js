@@ -13,10 +13,13 @@ import Restaurant from "./pages/Restaurant";
 import MenuType from "./pages/MenuType";
 import QR from "./pages/QR";
 import ContextProvider  from "./context/Context";
+import Drawers from "./components/Drawer";
+
 function App() {
   return (
     <div>
-      
+    <Navbar/>
+    <Drawers/>
       
         <Routes>
           <Route path="/" element={<Home />} />

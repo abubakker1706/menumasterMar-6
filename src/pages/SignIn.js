@@ -83,6 +83,9 @@ import ContextProvider, { Exportvalues } from '../context/Context';
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import GoogleButton from 'react-google-button';
+import './SignIn.css'
+import { Button, Card, TextField } from '@mui/material';
 
 
 const SignIn = () => {
@@ -168,10 +171,19 @@ const navigate = useNavigate();
 
   console.log(userID,"userIddd")
   return (
-    <div>
-      <h1>Sign In</h1>
-      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
-    </div>
+    <div className="center" >
+    <Card className="card">
+          <h1>Sign-in</h1>
+       <form className='form'>
+       <TextField id="standard-basic" label="Username" variant="outlined" style={{width:"80%"}}  />
+       <TextField id="standard-basic" label="Password"  variant="outlined" style={{width:"80%"}}/>
+       <Button variant='contained'>Login</Button>
+     <div  className="googlebtn">
+            <GoogleButton onClick={handleGoogleSignIn } className="googlebtn"/>
+          </div>
+          </form>
+          </Card>  
+        </div>
   );
 };
 

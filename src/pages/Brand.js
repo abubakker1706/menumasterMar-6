@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
 import { Exportvalues } from "../context/Context";
+import { TextField } from "@mui/material";
 
 
 
@@ -110,7 +111,7 @@ console.log(Brand,"Brand");
   };
 
   return (
-    <div >
+    <div className="brands" >
       {/* <p>welcome to Menu</p> */}
       {AddFlag == false ? (
         <div style={{ marginTop: 10 }}>
@@ -228,34 +229,51 @@ console.log(Brand,"Brand");
           );
         })
       ) : (
-        <div>
-          <div className="wrap31" style={{ flex: 1 }}>
+        <div style={{
+          display:"flex",
+          flexDirection:"column",
+          alignItems:"center",
+          justifyContent:"center",
+          gap:"1rem"
+        }}
+        >
+          <div className="wrap31" >
             <p>Add new brand</p>
             <div style={{ marginTop: 10 }}>
-              <textarea
+              <TextField 
                 name="postContent"
                 rows={2}
                 cols={40}
-                placeholder="Name"
+             
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
+                label="Brand Name"
+                 variant="outlined"
               />
             </div>
           </div>
-
-          <button type="submit" onClick={submitBrand}>
+<div  style={{
+          display:"flex",
+        
+          alignItems:"center",
+          justifyContent:"center",
+          gap:"1rem"
+        }}>
+          <Button type="submit" variant="contained" onClick={submitBrand}>
             Submit
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
+            variant="contained"
             onClick={() => {
               setAddFlag(false);
             }}
             style={{ marginLeft: 20 }}
           >
             cancel
-          </button>
+          </Button>
+          </div>
         </div>
       )}
     </div>
