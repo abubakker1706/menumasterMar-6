@@ -1,47 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./Menu.css";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Exportvalues } from "../context/Context";
 
-function MenuCrud() {
+function Menu() {
   const navigate = useNavigate();
   const location = useLocation();
+  const Brandid =location.state.brandid;
+  const restId=location.state.restid;
+  const mtId=location.state.mtid;
+const catId = location.state.catid;
   console.log("Restaurant and type", location.state);
   const [DispMenu, setDispMenu] = useState([]);
   const [AddFlag, setAddFlag] = useState(false);
   const [UpdateId, setUpdateId] = useState(null);
   const [action, setaction] = useState(false);
-  const [Name, setName] = useState();
-  const [Desc, setDesc] = useState();
+  const [Name, setName] = useState("");
+  const [Desc, setDesc] = useState("");
   const [Price, setPrice] = useState();
   const [Spice, setSpice] = useState();
-  const [Ingred, setIngred] = useState();
+  const [Ingred, setIngred] = useState("");
 
-  const [UpName, setUpName] = useState();
-  const [UpDesc, setUpDesc] = useState();
+  const [UpName, setUpName] = useState("");
+  const [UpDesc, setUpDesc] = useState("");
   const [UpPrice, setUpPrice] = useState();
   const [UpSpice, setUpSpice] = useState();
-  const [UpIngred, setUpIngred] = useState();
-
+  const [UpIngred, setUpIngred] = useState("");
+  const [AddVeg, setAddVeg] = useState(1);
+  const {Rests, setRests} = useContext(Exportvalues);
+  const {Brand, setBrand} = useContext(Exportvalues);
+  const {MenuType, setMenuType}= useContext(Exportvalues);
+  const storedUserID = localStorage.getItem('userID');
+  const {Cat, setCat} = useContext(Exportvalues);
   useEffect(() => {
     axios
-      .post(`https://www.thequana.com/apimobile/mmowner`, {
-        xversion: "hRs6",
-        xuserid: 21,
-        xaction: "menu_item_list",
-        RestaurantId: location.state.RestaurantId,
-        Status: "1",
-        TypeId: location.state.Id,
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menu`, {
+        userid: storedUserID,
+        restid: restId,
+        brandid: Brandid,
+        mtid: mtId,
+        
+        action: 'read',
       })
       .then((Response) => {
-        console.log("Response from server for MENU", Response.data.data);
-        if (Response?.data?.status) {
-          setDispMenu(Response?.data?.data);
-        }
+        // console.log("Response from server for MENU", Response.data.data);
+        // if (Response?.data?.status) {
+        //   setDispMenu(Response?.data?.data);
+        // }
+        console.log(Response,"ress")
+        setDispMenu(Response?.data);
       });
-  }, [AddFlag, action]);
-
+  }, [action]);
+ // console.log(MenuType.mtid);
+console.log(DispMenu,"Dispmenuuuu")
   const AddMenu = () => {
     setAddFlag(true);
   };
@@ -56,20 +69,31 @@ function MenuCrud() {
 
   const submitMenu = () => {
     axios
-      .post(`https://www.thequana.com/apimobile/mmowner`, {
-        xversion: "hRs6",
-        xuserid: 21,
-        xaction: "menu_item_add",
-        RestaurantId: location.state.RestaurantId,
-        TypeId: 1,
-        VegId: 1,
-        SpiceId: Spice,
-        Price: Price,
-        Name: Name,
-        Description: Desc,
-        Ingredients: Ingred,
-        Status: "1",
-        TypeId: location.state.Id,
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menu`, {
+       
+
+        menu: Name,
+        mtid: mtId,
+        brandid: Brandid,
+        restid: restId,
+        catid: catId,
+        userid: storedUserID,
+        notes: 'blah',
+        MImage: 'null',
+        veg: AddVeg,
+        spice: 1,
+        price: 100,
+        description: Desc,
+        ingredients: Ingred,
+        favourite: 1,
+        status1: 1,
+        rank1: 1,
+        cUser: storedUserID ,
+        action: 'create',
+
+
+
+
       })
       .then((res) => {
         console.log(res.data.status);
@@ -173,7 +197,7 @@ function MenuCrud() {
                 edit
               </button>
 
-              {UpdateId == item?.Id ? (
+              {UpdateId == item?.menuid ? (
                 <div>
                   <button
                     style={{ marginLeft: 200 }}
@@ -249,15 +273,15 @@ function MenuCrud() {
               ) : (
                 <div className="wrap20">
                   <div style={{ marginLeft: 10 }}>
-                    <p style={{ marginBottom: -10 }}>Name: {item?.Name}</p>
+                    <p style={{ marginBottom: -10 }}>Name: {item?.menu}</p>
                     <p style={{ marginBottom: -10 }}>
                       SpiceId: {item?.SpiceId}
                     </p>
-                    <p style={{ marginBottom: -10 }}>Price: {item?.Price}</p>
+                    <p style={{ marginBottom: -10 }}>Price: {item?.price}</p>
                     <p style={{ marginBottom: -10 }}>
-                      Description: {item?.Description}
+                      Description: {item?.description}
                     </p>
-                    <p>Ingredients: {item?.Ingredients}</p>
+                    <p>Ingredients: {item?.ingredients}</p>
                   </div>
                 </div>
               )}
@@ -334,4 +358,4 @@ function MenuCrud() {
     </div>
   );
 }
-export default MenuCrud;
+export default Menu;

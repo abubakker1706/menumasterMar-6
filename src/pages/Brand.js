@@ -61,6 +61,13 @@ console.log(Brand,"Brand");
     setUpdateId(item?.brandid);
     setUpName(item?.brand);
   };
+  const BrandSelector = item => {
+    console.log(item);
+    // setRest(item);
+    setBrand(item);
+    navigate('/rest');
+    // setIsOpen(false);
+  };
 
  
 
@@ -213,14 +220,14 @@ console.log(Brand,"Brand");
               <Button
                 style={{ marginLeft: 10 }}
                 onClick={() => {
-                  navigate("/rest", { state: { item, selectedIndex: index }  });
+                  navigate("/rest", { state: item });
                 }}
                 variant="contained" 
                 size="small"
                 color="success"
                 startIcon={<TouchAppIcon/>}
               >
-                 <span style={{marginTop:"0.2rem"}}>Select</span>
+                 <span style={{marginTop:"0.2rem"}} onClick={()=>BrandSelector(item)}>Select</span>
               </Button>
 
              </div>

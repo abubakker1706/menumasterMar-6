@@ -12,11 +12,11 @@ function Home() {
   //   }
   // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
  
-    // console.log("user_mail is", user.email);
-    navigate("/otp");
-  }, []);
+  //   // console.log("user_mail is", user.email);
+  //   navigate("/otp");
+  // }, []);
 
   return <div>Home Page</div>;
 }

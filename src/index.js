@@ -6,9 +6,11 @@ import ContextProvider from "./context/Context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
   <ContextProvider>
+  <BrowserRouter>
+  
     <App />
-    </ContextProvider>
+    
   </BrowserRouter>
+  </ContextProvider>
 );

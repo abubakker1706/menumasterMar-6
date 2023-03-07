@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import "./MenuType.css";
 import { Exportvalues } from "../context/Context";
 
-function MenuType() {
+function Cat() {
   const navigate = useNavigate();
   const location = useLocation();
-  const restId=location.state.restid
-  const Brandid =location.state.brandid
+
+  const Brandid =location.state.brandid;
+  const restId=location.state.restid;
+  const mtId=location.state.mtid;
+
   console.log(location.state);
   const [Types, setTypes] = useState([]);
   const [AddFlag, setAddFlag] = useState(false);
@@ -20,14 +23,16 @@ function MenuType() {
   const {Rests, setRests} = useContext(Exportvalues);
   const {Brand, setBrand} = useContext(Exportvalues);
   const {MenuType, setMenuType}= useContext(Exportvalues);
+  const {Cat, setCat} = useContext(Exportvalues);
   const storedUserID = localStorage.getItem('userID');
   console.log(Rests.restid);
   useEffect(() => {
     axios
-      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menutype`, {
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/cat`, {
         userid:  storedUserID,
         action: 'read',
         restid: restId,
+        mtid: mtId,
         brandid: Brandid,
       })
       .then((res) => {
@@ -41,21 +46,22 @@ function MenuType() {
   }, [action]);
 console.log(Types)
   const UpdateType = (item) => {
-    setUpdateId(item?.mtid);
-    setUpType(item?.menutype);
+    setUpdateId(item?.catid);
+    setUpType(item?.cat);
   };
   const selectMenuType = item => {
     console.log(item);
+    setCat(item);
     setMenuType(item);
-    navigate('/cat');
+    navigate('menu');
   };
   const UpdateTypeName = () => {
     axios
-      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menutype`, {
-        menutype: UpType,
-        MTImage: "",
-        mtid: UpdateId,
-        action: 'update',
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/cat`, {
+        cat: UpType,
+      CImage: "",
+      catid: UpdateId,
+      action: 'update',
       })
       .then((res) => {
         console.log(res.data);
@@ -70,18 +76,21 @@ console.log(Types)
 
   const submitType = () => {
     axios
-      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menutype`, {
-        menutype: Name,
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/cat`, {
+        
+        cat: Name,
+        mtid: mtId,
         brandid: Brandid,
-        restid:restId,
+        restid: restId,
         userid: storedUserID,
         notes: 'notes',
-        MTImage: 'null',
+        CImage: 'null',
         favourite: 1,
         status1: 1,
         rank1: 1,
         cUser: storedUserID,
         action: 'create',
+
       })
       .then((res) => {
         console.log(res.data.status);
@@ -93,9 +102,9 @@ console.log(Types)
   const deleteType = (item) => {
     console.log(item);
     axios
-      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menutype`, {
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/cat`, {
        
-      mtid: item.mtid,
+      catid: item?.catid,
       action: 'delete',
       })
       .then((res) => {
@@ -109,7 +118,7 @@ console.log(Types)
       {/* <p>welcome to Menu</p> */}
       {AddFlag == false ? (
         <div style={{ marginTop: 10 }}>
-          <button onClick={AddType}>Add Menu Type</button>
+          <button onClick={AddType}>Add Category</button>
         </div>
       ) : (
         <div></div>
@@ -138,13 +147,13 @@ console.log(Types)
               <button
                 style={{ marginLeft: 10 }}
                 onClick={() => {
-                  navigate("/cat", { state: item });
+                  navigate("/menu", { state: item });
                 }}
               >
                 <span onClick={()=>selectMenuType(item)}>select</span>
               </button>
 
-              {UpdateId == item?.mtid ? (
+              {UpdateId == item?.catid ? (
                 <div>
                   <button
                     style={{ marginLeft: 200 }}
@@ -176,7 +185,7 @@ console.log(Types)
               ) : (
                 <div className="wrap12">
                   <div style={{ marginLeft: 10 }}>
-                    <p style={{ marginBottom: 10 }}>Menu Type: {item?.menutype}</p>
+                    <p style={{ marginBottom: 10 }}>Category: {item?.cat}</p>
                   </div>
                 </div>
               )}
@@ -186,7 +195,7 @@ console.log(Types)
       ) : (
         <div>
           <div className="wrap13" style={{ flex: 1 }}>
-            <p>Add new menu type</p>
+            <p>Add New Category</p>
             <div style={{ marginTop: 10 }}>
               <textarea
                 name="postContent"
@@ -218,4 +227,4 @@ console.log(Types)
   );
 }
 
-export default MenuType;
+export default Cat;

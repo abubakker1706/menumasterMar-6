@@ -7,11 +7,13 @@ import { Exportvalues } from "../context/Context";
 
 function Restaurant() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const {state} = useLocation();
+  const Brandid =state?.brandid ?? 0;
+  console.log(state?.brandid,"location state");
   const {Brand, setBrand} = useContext(Exportvalues);
   const {Rests, setRests} = useContext(Exportvalues);
   
-
+  const [Types, setTypes] = useState([]);
   const [AddFlag, setAddFlag] = useState(false);
   const [UpdateId, setUpdateId] = useState(null);
   const [UpName, setUpName] = useState();
@@ -27,19 +29,20 @@ console.log(Brand.brandid,"rest nrand")
       .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/rest`, {
         userid: storedUserID,
       action: 'read',
-      brandid: Brand.brandid,
+      brandid: Brandid,
       })
       .then((res) => {
-        if (res?.data?.status) {
-          console.log("Rest list", res.data.data);
-          setRests(res.data.data);
-        }
+        // if (res?.data?.status1) {
+        //   console.log("Rest list", res.data.data);
+        //   setRests(res.data.data);
+        // }
+        setTypes(res?.data);
       });
   }, [action]);
-
+console.log(Types)
   const UpdateRest = (item) => {
-    setUpdateId(item?.Id);
-    setUpName(item?.Restaurant);
+    setUpdateId(item?.restid);
+    setUpName(item?.rest);
   };
 
   const UpdateRestName = () => {
@@ -81,7 +84,11 @@ console.log(Brand.brandid,"rest nrand")
         setaction(!action);
       });
   };
-
+  const RestSelector = item => {
+    setRests(item);
+    navigate('menuType');
+    // console.log(item);
+  };
   const deleteRest = (item) => {
     console.log(item);
     axios
@@ -106,7 +113,7 @@ console.log(Brand.brandid,"rest nrand")
         <div></div>
       )}
       {AddFlag == false ? (
-        Rests.map((item, index) => {
+        Types.map((item, index) => {
           // console.log(item);
           return (
             <div style={{ marginTop: 20 }}>
@@ -122,6 +129,7 @@ console.log(Brand.brandid,"rest nrand")
                 style={{ marginLeft: 10 }}
                 onClick={() => {
                   UpdateRest(item);
+
                 }}
               >
                 edit
@@ -132,10 +140,10 @@ console.log(Brand.brandid,"rest nrand")
                   navigate("/menutype", { state: item });
                 }}
               >
-                select
+                <span onClick={()=>RestSelector(item)}>select</span>
               </button>
 
-              {UpdateId == item?.Id ? (
+              {UpdateId == item?.restid ? (
                 <div>
                   <button
                     style={{ marginLeft: 200 }}
@@ -168,7 +176,7 @@ console.log(Brand.brandid,"rest nrand")
                 <div className="wrap2">
                   <div style={{ marginLeft: 10 }}>
                     <p style={{ marginBottom: 10 }}>
-                      Restaurant Name: {item?.Restaurant}
+                      Restaurant Name: {item?.rest}
                     </p>
                   </div>
                 </div>

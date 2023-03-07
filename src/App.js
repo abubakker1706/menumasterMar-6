@@ -14,12 +14,13 @@ import MenuType from "./pages/MenuType";
 import QR from "./pages/QR";
 import ContextProvider  from "./context/Context";
 import Drawers from "./components/Drawer";
+import Cat from "./pages/Cat";
 
 function App() {
   return (
     <div>
     <Navbar/>
-    <Drawers/>
+
       
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,6 +31,7 @@ function App() {
           <Route path="/roles" element={<Roles />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/menutype" element={<MenuType />} />
+          <Route path="/cat" element={<Cat/>} />
           <Route path="/brand" element={<Brand />} />
           <Route path="/rest" element={<Restaurant />} />
           <Route path="/qr" element={<QR />} />
