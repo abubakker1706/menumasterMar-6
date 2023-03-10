@@ -57,7 +57,7 @@ function Navbar() {
         ) : (
           <Link to="/signin">SignIn</Link>
         )} */}
-        <Button  onClick={handleLogout}  variant="contained">{user ?"logout":"SignIn"}</Button>
+        {user&& <Button  onClick={handleLogout}  variant="contained">Logout</Button>}
       </div>
       </div>
     </div>
