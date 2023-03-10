@@ -1,3 +1,12 @@
+
+.menutype{
+  width: calc(100% - 249px);
+  margin-left: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 .wrap12 {
   flex-direction: column;
   height: 50px;
@@ -52,7 +61,7 @@
   /* width: 200px; */
   /* padding: 5px; */
   /* padding-left: 10; */
-  background-color: yellow;
+
   border-radius: 5px;
   /* border-width: 5; */
   /* align-items: center; */

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./Brand.css";
 import Button from '@mui/material/Button'; 
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useNavigate } from "react-router-dom";
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -19,7 +19,7 @@ function Brand() {
   const {Brand, setBrand} = useContext(Exportvalues);
   
 
-  const storedUserID = localStorage.getItem('userID');
+  const storedUserID = localStorage.getItem('userID');  
   // console.log(storedUserID,"stIDDDDD");
  
 
@@ -32,6 +32,7 @@ function Brand() {
   const [UpName, setUpName] = useState();
   const [Name, setName] = useState();
   const [action, setaction] = useState(false);
+  const [Img, setImg] = useState();
 
 
 
@@ -60,6 +61,7 @@ console.log(Brand,"Brand");
   const UpdateBrand = (item) => {
     setUpdateId(item?.brandid);
     setUpName(item?.brand);
+    setImg(item?.BImage);
   };
   const BrandSelector = item => {
     console.log(item);
@@ -76,7 +78,7 @@ console.log(Brand,"Brand");
       userid:  storedUserID ,
       action: 'update',
       brand: UpName,
-      BImage: "",
+      BImage: Img,
       brandid: UpdateId,
     }).then(res => {
       console.log(res.data);
@@ -149,39 +151,86 @@ console.log(Brand,"Brand");
             }}
             
              >
+             {UpdateId !== item?.brandid &&<div>
+             {item.BImage !== 'null' ? (
+                        <img
+                          src={item.BImage}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            marginLeft: 10,
+                            borderRadius: 5,
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="https://img.favpng.com/23/20/7/computer-icons-information-png-favpng-g8DtjAPPNhyaU9EdjHQJRnV97_t.jpg"
+                          style={{width: 100, height: 100, marginLeft: 10}}
+                        />
+                      )}
+
+                      <FileUploadIcon
+                         onClick={() => {
+                       navigate('/upload', {
+                    state: { page:'brand', data: item },
+                                                            });
+                                }}
+                        
+                        >
+                       
+                      </FileUploadIcon>
+
+             </div>}
             {UpdateId == item?.brandid ? (
-                <div>
-                  <button
-                    style={{ marginLeft: 200 }}
-                    onClick={() => {
-                      setUpdateId(null);
-                    }}
-                  >
-                    cancel
-                  </button>
-                  <div className="wrap41">
-                    <div style={{ marginLeft: 10 }}>
-                      <p style={{ marginBottom: 10 }}>
-                        Brand Name:{" "}
-                        <textarea
-                          rows={1}
-                          cols={40}
+                <div
+                 style={{
+                  display:"flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "1rem",
+                }}
+                
+                >
+                <div className="wrap41">
+                    <div >
+                      
+                        
+                        <TextField 
+                          
                           defaultValue={UpName}
                           onChange={(event) => {
                             setUpName(event.target.value);
                           }}
-                        ></textarea>
-                      </p>
+                          label="Brand Name"
+                 variant="outlined"
+                        />
+                     
                     </div>
                   </div>
-                  <button onClick={UpdateBrandName} style={{ marginLeft: 200 }}>
+                  <Button
+                    
+                    onClick={() => {
+                      setUpdateId(null);
+                    }}
+                    variant="contained" 
+                color="error"
+                size="small"
+                  >
+                    cancel
+                  </Button>
+                 
+                  <Button onClick={UpdateBrandName} 
+                  variant="contained" 
+                color="warning"
+                size="small"
+                >
                     Done
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <div className="wrap21">
                   <div style={{ marginLeft: 10 }}>
-                    <p style={{ marginBottom: 10 ,fontSize:"25px",fontWeight:600,}} >
+                    <p style={{ marginBottom: 10 ,fontSize:"25px",fontWeight:600}} >
                       Brand Name: {item?.brand}
                 
                     </p>
@@ -190,7 +239,7 @@ console.log(Brand,"Brand");
                 </div>
               )}
            
-              <Button
+             {UpdateId !== item?.brandid && <Button
                 onClick={() => {
                   deleteBrand(item);
                 
@@ -201,9 +250,9 @@ console.log(Brand,"Brand");
                 startIcon={<DeleteIcon />}
               >
                 <span style={{marginTop:"0.2rem"}}>Delete</span>
-              </Button>
+              </Button>}
             
-              <Button
+              {UpdateId !== item?.brandid &&<Button
                 style={{ marginLeft: 10 }}
                 onClick={() => {
                   UpdateBrand(item);
@@ -216,8 +265,8 @@ console.log(Brand,"Brand");
            
            <span style={{marginTop:"0.2rem"}}>Edit</span>
            
-              </Button>
-              <Button
+              </Button>}
+             {UpdateId !== item?.brandid && <Button
                 style={{ marginLeft: 10 }}
                 onClick={() => {
                   navigate("/rest", { state: item });
@@ -228,7 +277,7 @@ console.log(Brand,"Brand");
                 startIcon={<TouchAppIcon/>}
               >
                  <span style={{marginTop:"0.2rem"}} onClick={()=>BrandSelector(item)}>Select</span>
-              </Button>
+              </Button>}
 
              </div>
              <hr/>
@@ -266,13 +315,22 @@ console.log(Brand,"Brand");
           alignItems:"center",
           justifyContent:"center",
           gap:"1rem"
-        }}>
-          <Button type="submit" variant="contained" onClick={submitBrand}>
+        }}
+        
+        >
+          <Button type="submit"  onClick={submitBrand}
+          variant="contained" 
+                size="small"
+                color="success"
+          >
             Submit
           </Button>
           <Button
             type="submit"
-            variant="contained"
+         
+            variant="contained" 
+                size="small"
+                color="error"
             onClick={() => {
               setAddFlag(false);
             }}

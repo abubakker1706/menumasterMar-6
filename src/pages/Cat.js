@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./MenuType.css";
 import { Exportvalues } from "../context/Context";
-
+import "./Cat.css"
 function Cat() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,7 +114,7 @@ console.log(Types)
   };
 
   return (
-    <div>
+    <div className="cat">
       {/* <p>welcome to Menu</p> */}
       {AddFlag == false ? (
         <div style={{ marginTop: 10 }}>
@@ -128,32 +128,21 @@ console.log(Types)
           // console.log(item);
           return (
             <div style={{ marginTop: 20 }}>
-              <button
-                onClick={() => {
-                  deleteType(item);
-                }}
-              >
-                Delete
-              </button>
-
-              <button
-                style={{ marginLeft: 10 }}
-                onClick={() => {
-                  UpdateType(item);
-                }}
-              >
-                edit
-              </button>
-              <button
-                style={{ marginLeft: 10 }}
-                onClick={() => {
-                  navigate("/menu", { state: item });
-                }}
-              >
-                <span onClick={()=>selectMenuType(item)}>select</span>
-              </button>
-
-              {UpdateId == item?.catid ? (
+            <div
+              style={{ 
+            
+            display:"flex" ,
+            alignItems:"center",
+           justifyContent:"center",
+            
+            
+            gap:"1rem"
+            
+            }}
+            
+            
+            >
+               {UpdateId == item?.catid ? (
                 <div>
                   <button
                     style={{ marginLeft: 200 }}
@@ -189,6 +178,33 @@ console.log(Types)
                   </div>
                 </div>
               )}
+              <button
+                onClick={() => {
+                  deleteType(item);
+                }}
+              >
+                Delete
+              </button>
+
+              <button
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  UpdateType(item);
+                }}
+              >
+                edit
+              </button>
+              <button
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  navigate("/menu", { state: item });
+                }}
+              >
+                <span onClick={()=>selectMenuType(item)}>select</span>
+              </button>
+
+           
+              </div>
             </div>
           );
         })

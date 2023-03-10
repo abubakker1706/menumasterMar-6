@@ -1,5 +1,6 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes,Navigate, useNavigate} from "react-router-dom";
+
 import Account from "./pages/Account";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -15,14 +16,24 @@ import QR from "./pages/QR";
 import ContextProvider  from "./context/Context";
 import Drawers from "./components/Drawer";
 import Cat from "./pages/Cat";
+import Upload from "./pages/Upload";
 
 function App() {
+  const storedUserID = localStorage.getItem('userID');  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (storedUserID) {
+      navigate('/brand', { replace: true });
+    }
+  }, [storedUserID]);
   return (
     <div>
     <Navbar/>
 
-      
+      <Drawers/>
         <Routes>
+    
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/account" element={<Account />} />
@@ -35,6 +46,7 @@ function App() {
           <Route path="/brand" element={<Brand />} />
           <Route path="/rest" element={<Restaurant />} />
           <Route path="/qr" element={<QR />} />
+          <Route path="/upload" element={<Upload/>} />
         </Routes>
      
     </div>

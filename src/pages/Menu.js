@@ -41,6 +41,7 @@ const catId = location.state.catid;
         restid: restId,
         brandid: Brandid,
         mtid: mtId,
+        catid:catId,
         
         action: 'read',
       })
@@ -169,9 +170,12 @@ console.log(DispMenu,"Dispmenuuuu")
   };
 
   return (
-    <div>
+    <div className="menu">
       {AddFlag == false ? (
+        <div style={{ marginTop: 10 }}>
         <button onClick={AddMenu}>Add Menu</button>
+        </div>
+       
       ) : (
         <div></div>
       )}
@@ -180,24 +184,19 @@ console.log(DispMenu,"Dispmenuuuu")
           // console.log(item);
           return (
             <div style={{ marginTop: 20 }}>
-              <button
-                onClick={() => {
-                  deleteMenu(item);
-                }}
-              >
-                Delete
-              </button>
-
-              <button
-                style={{ marginLeft: 10 }}
-                onClick={() => {
-                  UpdateMenu(item);
-                }}
-              >
-                edit
-              </button>
-
-              {UpdateId == item?.menuid ? (
+            <div
+              style={{ 
+            
+            display:"flex" ,
+            alignItems:"center",
+           justifyContent:"center",
+            
+            
+            gap:"1rem"
+            
+            }}
+            >
+            {UpdateId == item?.menuid ? (
                 <div>
                   <button
                     style={{ marginLeft: 200 }}
@@ -285,6 +284,25 @@ console.log(DispMenu,"Dispmenuuuu")
                   </div>
                 </div>
               )}
+              <button
+                onClick={() => {
+                  deleteMenu(item);
+                }}
+              >
+                Delete
+              </button>
+
+              <button
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  UpdateMenu(item);
+                }}
+              >
+                edit
+              </button>
+
+              
+              </div>
             </div>
           );
         })

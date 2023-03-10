@@ -1,3 +1,13 @@
+.menu{
+
+  width: calc(100% - 249px);
+  margin-left: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+
 .wrap20 {
   flex-direction: column;
   height: 150px;

@@ -4,6 +4,11 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./MenuType.css";
 import { Exportvalues } from "../context/Context";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
+import { Button, TextField } from "@mui/material";
 
 function MenuType() {
   const navigate = useNavigate();
@@ -105,11 +110,16 @@ console.log(Types)
   };
 
   return (
-    <div>
+    <div className="menutype">
       {/* <p>welcome to Menu</p> */}
       {AddFlag == false ? (
+        
         <div style={{ marginTop: 10 }}>
-          <button onClick={AddType}>Add Menu Type</button>
+          <Button onClick={AddType} variant="contained" 
+          startIcon={<AddCircleIcon/>}
+          style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+
+          <span style={{marginTop:"0.2rem"}}>Add Menu Type</span></Button>
         </div>
       ) : (
         <div></div>
@@ -119,6 +129,75 @@ console.log(Types)
           // console.log(item);
           return (
             <div style={{ marginTop: 20 }}>
+            <div 
+            style={{ 
+            
+            display:"flex" ,
+            alignItems:"center",
+           justifyContent:"center",
+            
+            
+            gap:"1rem"
+            
+            }}
+            
+            
+            >
+              {UpdateId == item?.mtid ? (
+                <div
+                 style={{
+                  display:"flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "1rem",
+                }}
+                
+                >
+                <div className="wrap14">
+                <div >
+                      
+                        
+                      <TextField 
+                        
+                        defaultValue={UpType}
+                        onChange={(event) => {
+                          setUpType(event.target.value);
+                        }}
+                        label="Menu-Type Name"
+               variant="outlined"
+                      />
+                   
+                  </div>
+                  </div>
+                 
+                  <Button
+                    
+                    onClick={() => {
+                      setUpdateId(null);
+                    }}
+                    variant="contained" 
+                color="error"
+                size="small"
+                  >
+                    cancel
+                  </Button>
+                  
+                  <Button onClick={UpdateTypeName}
+                  variant="contained" 
+                color="warning"
+                size="small"
+                  
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <div className="wrap12">
+                  <div style={{ marginLeft: 10 }}>
+                    <p style={{ marginBottom: 10 }}>Menu Type: {item?.menutype}</p>
+                  </div>
+                </div>
+              )}
               <button
                 onClick={() => {
                   deleteType(item);
@@ -144,42 +223,9 @@ console.log(Types)
                 <span onClick={()=>selectMenuType(item)}>select</span>
               </button>
 
-              {UpdateId == item?.mtid ? (
-                <div>
-                  <button
-                    style={{ marginLeft: 200 }}
-                    onClick={() => {
-                      setUpdateId(null);
-                    }}
-                  >
-                    cancel
-                  </button>
-                  <div className="wrap14">
-                    <div style={{ marginLeft: 10 }}>
-                      <p style={{ marginBottom: 10 }}>
-                        Menu Type:{" "}
-                        <textarea
-                          rows={1}
-                          cols={40}
-                          defaultValue={UpType}
-                          onChange={(event) => {
-                            setUpType(event.target.value);
-                          }}
-                        ></textarea>
-                      </p>
-                    </div>
-                  </div>
-                  <button onClick={UpdateTypeName} style={{ marginLeft: 200 }}>
-                    Done
-                  </button>
-                </div>
-              ) : (
-                <div className="wrap12">
-                  <div style={{ marginLeft: 10 }}>
-                    <p style={{ marginBottom: 10 }}>Menu Type: {item?.menutype}</p>
-                  </div>
-                </div>
-              )}
+            
+              </div>
+              <hr/>
             </div>
           );
         })

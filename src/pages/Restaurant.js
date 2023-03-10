@@ -4,6 +4,11 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Restaurant.css";
 import { Exportvalues } from "../context/Context";
+import { Button, TextField } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
 
 function Restaurant() {
   const navigate = useNavigate();
@@ -23,7 +28,7 @@ function Restaurant() {
 
 
 
-console.log(Brand.brandid,"rest nrand")
+console.log(Brandid,"rest brand")
   useEffect(() => {
     axios
       .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/rest`, {
@@ -69,7 +74,7 @@ console.log(Types)
       .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/rest`, {
         rest: Name,
         userid: storedUserID,
-        brandid: Brand.brandid,
+        brandid: Brandid,
         RImage: 'null',
         notes: 'nill',
         favourite: 0,
@@ -103,11 +108,16 @@ console.log(Types)
   };
 
   return (
-    <div>
+    <div className="rest">
       {/* <p>welcome to Menu</p> */}
       {AddFlag == false ? (
+        
         <div style={{ marginTop: 10 }}>
-          <button onClick={AddRest}>Add Restaurant</button>
+          <Button onClick={AddRest} variant="contained" 
+          startIcon={<AddCircleIcon />}
+          style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+
+          <span style={{marginTop:"0.2rem"}}>Add Restaurant</span></Button>
         </div>
       ) : (
         <div></div>
@@ -117,102 +127,176 @@ console.log(Types)
           // console.log(item);
           return (
             <div style={{ marginTop: 20 }}>
-              <button
+            <div style={{ 
+            
+            display:"flex" ,
+            alignItems:"center",
+           justifyContent:"center",
+           
+            
+            
+            gap:"1rem"
+            
+            }}>
+              {UpdateId == item?.restid ? (
+                <div
+                 style={{
+                  display:"flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "1rem",
+                }}
+                
+                >
+             
+                  <div className="wrap4">
+                    <div >
+                      
+                        
+                        <TextField 
+                          
+                          defaultValue={UpName}
+                          onChange={(event) => {
+                            setUpName(event.target.value);
+                          }}
+                          label="Restaurant Name"
+                 variant="outlined"
+                        />
+                     
+                    </div>
+                  </div>
+                  <Button
+                    
+                    onClick={() => {
+                      setUpdateId(null);
+                    }}
+                    variant="contained" 
+                color="error"
+                size="small"
+                  >
+                    cancel
+                  </Button>
+                
+                  <Button onClick={UpdateRestName} 
+                  variant="contained" 
+                color="warning"
+                size="small"
+                  
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <div className="wrap2">
+                  <div style={{ marginLeft: 10 }}>
+                    <p style={{ marginBottom: 10 ,fontSize:"25px",fontWeight:600}}>
+                      Restaurant Name: {item?.rest}
+                    </p>
+                  </div>
+                </div>
+              )}
+             { UpdateId !== item?.restid && <Button
                 onClick={() => {
                   deleteRest(item);
                 }}
+                variant="contained" 
+                color="error"
+                size="small"
+                startIcon={<DeleteIcon />}
               >
                 Delete
-              </button>
+              </Button>}
 
-              <button
+              {UpdateId !== item?.restid &&<Button
                 style={{ marginLeft: 10 }}
+                variant="contained" 
+                size="small"
+                color="warning"
+                startIcon={<EditIcon />}
                 onClick={() => {
                   UpdateRest(item);
 
                 }}
               >
                 edit
-              </button>
-              <button
+              </Button>}
+              {UpdateId !== item?.restid &&<Button
+              variant="contained" 
+                size="small"
+                color="success"
+                startIcon={<TouchAppIcon/>}
                 style={{ marginLeft: 10 }}
                 onClick={() => {
                   navigate("/menutype", { state: item });
                 }}
               >
                 <span onClick={()=>RestSelector(item)}>select</span>
-              </button>
+              </Button>}
 
-              {UpdateId == item?.restid ? (
-                <div>
-                  <button
-                    style={{ marginLeft: 200 }}
-                    onClick={() => {
-                      setUpdateId(null);
-                    }}
-                  >
-                    cancel
-                  </button>
-                  <div className="wrap4">
-                    <div style={{ marginLeft: 10 }}>
-                      <p style={{ marginBottom: 10 }}>
-                        Restaurant Name:{" "}
-                        <textarea
-                          rows={1}
-                          cols={40}
-                          defaultValue={UpName}
-                          onChange={(event) => {
-                            setUpName(event.target.value);
-                          }}
-                        ></textarea>
-                      </p>
-                    </div>
-                  </div>
-                  <button onClick={UpdateRestName} style={{ marginLeft: 200 }}>
-                    Done
-                  </button>
-                </div>
-              ) : (
-                <div className="wrap2">
-                  <div style={{ marginLeft: 10 }}>
-                    <p style={{ marginBottom: 10 }}>
-                      Restaurant Name: {item?.rest}
-                    </p>
-                  </div>
-                </div>
-              )}
+            
+              </div>
+              <hr/>
             </div>
           );
         })
       ) : (
-        <div>
-          <div className="wrap3" style={{ flex: 1 }}>
+        <div
+        style={{
+          display:"flex",
+          flexDirection:"column",
+          alignItems:"center",
+          justifyContent:"center",
+          gap:"1rem"
+        }}
+        
+        >
+          <div className="wrap3" >
             <p>Add new Restaurant</p>
             <div style={{ marginTop: 10 }}>
-              <textarea
+            
+                <TextField 
                 name="postContent"
                 rows={2}
                 cols={40}
-                placeholder="Name"
+             
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
+                label="Restaurant Name"
+                 variant="outlined"
               />
             </div>
           </div>
+<div
+style={{
+          display:"flex",
+        
+          alignItems:"center",
+          justifyContent:"center",
+          gap:"1rem"
+        }}
 
-          <button type="submit" onClick={submitRest}>
+>
+          <Button type="submit" onClick={submitRest}
+          variant="contained" 
+                size="small"
+                color="success"
+          >
             Submit
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             onClick={() => {
               setAddFlag(false);
             }}
             style={{ marginLeft: 20 }}
+            variant="contained" 
+                size="small"
+                color="error"
           >
             cancel
-          </button>
+          </Button>
+          </div>
         </div>
       )}
     </div>

@@ -144,15 +144,16 @@ const navigate = useNavigate();
               console.log(Response?.data[0].userid)
               setUserID(Response?.data[0].userid);
               localStorage.setItem("userID", Response.data[0].userid);
-              setEmail(user?.email);
-              setName(user?.displayName);
-              setPhotoUrl(user?.photoURL);
+              localStorage.setItem("Email", user?.email);
+              localStorage.setItem("Name", user?.displayName);
+              localStorage.setItem("PhotoUrl", user?.photoURL);
+              
           
 
            
               console.log(Email,Name,PhotoUrl,"emailllllllll",user?.email,user?.displayName,user?.photoURL)
 
-             alert("Login Successful");
+             
              navigate('/brand');
 
             
