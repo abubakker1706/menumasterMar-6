@@ -77,6 +77,7 @@ console.log(Types)
         brandid: Brandid,
         RImage: 'null',
         notes: 'nill',
+        plan_id:1,
         favourite: 0,
         status1: 1,
         rank1: 1,

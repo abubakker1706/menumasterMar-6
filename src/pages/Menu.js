@@ -60,14 +60,20 @@ console.log(DispMenu,"Dispmenuuuu")
     setAddFlag(true);
   };
   const UpdateMenu = (item) => {
-    setUpdateId(item?.Id);
-    setUpName(item?.Name);
-    setUpDesc(item?.Description);
-    setUpPrice(item?.Price);
-    setUpSpice(item?.SpiceId);
-    setUpIngred(item?.Ingredients);
+    setUpdateId(item?.menuid);
+    setUpName(item?.menu);
+    setUpDesc(item?.description);
+    setUpPrice(item?.price);
+    setUpSpice(item?.spice);
+    setUpIngred(item?.ingredients);
   };
-
+  const selectMenu = item => {
+    console.log(item);
+    setCat(item);
+    setMenuType(item);
+    setRests(item);
+    
+  };
   const submitMenu = () => {
     axios
       .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menu`, {
@@ -82,7 +88,7 @@ console.log(DispMenu,"Dispmenuuuu")
         notes: 'blah',
         MImage: 'null',
         veg: AddVeg,
-        spice: 1,
+        spice: Spice,
         price: 100,
         description: Desc,
         ingredients: Ingred,
@@ -106,13 +112,9 @@ console.log(DispMenu,"Dispmenuuuu")
   const deleteMenu = (item) => {
     console.log(item);
     axios
-      .post(`https://www.thequana.com/apimobile/mmowner`, {
-        xversion: "hRs6",
-        xuserid: 21,
-        xaction: "menu_item_delete",
-        RestaurantId: location.state.RestaurantId,
-        Id: item?.Id,
-        TypeId: location.state.Id,
+      .post(`https://plankton-app-ovujs.ondigitalocean.app/routes/menu`, {
+        menuid: item.menuid,
+      action: 'delete',
       })
       .then((res) => {
         console.log(res.data);
@@ -123,44 +125,20 @@ console.log(DispMenu,"Dispmenuuuu")
   const UpdateItem = () => {
     axios
       .post(
-        `https://www.thequana.com/apimobile/mmowner`,
-        // {
-        //   xversion: "hRs6",
-        //   xuserid: 21,
-        //   xaction: "menu_item_update",
-        //   RestaurantId: location.state.RestaurantId,
-        //   Id: UpdateId,
-        //   CatId: 0,
-        //   SpiceId: UpSpice,
-        //   VegId: 1,
-        //   Price: UpPrice,
-        //   Name: UpName,
-        //   Description: UpDesc,
-        //   Ingredients: UpIngred,
-        //   DiscountType: "%",
-        //   DiscountValue: "20",
-        //   Status: "1",
-        //   // TypeId: location.state.Id,
-        // },
+        `https://plankton-app-ovujs.ondigitalocean.app/routes/menu`,
         {
-          xversion: "hRs6",
-          xuserid: 21,
-          xaction: "menu_item_update",
-          RestaurantId: location.state.RestaurantId,
-          TypeId: location.state.Id,
-          CatId: 1,
-          SpiceId: UpSpice,
-          VegId: 1,
-          Name: UpName,
-          Price: UpPrice,
-          DiscountTye: "amount or percent",
-          DiscountValue: "22",
-          Ingredients: UpIngred,
-          Id: UpdateId,
-          Description: UpDesc,
-          Rank: "5",
-          Status: "1",
-        }
+          menu: UpName,
+      MImage: "",
+      spice: UpSpice,
+      price: UpPrice,
+      veg: 1,
+      description: UpDesc,
+      ingredients: UpIngred,
+      menuid: UpdateId,
+      action: 'update',
+          // TypeId: location.state.Id,
+        },
+       
       )
       .then((res) => {
         console.log(res.data);
@@ -179,11 +157,24 @@ console.log(DispMenu,"Dispmenuuuu")
       ) : (
         <div></div>
       )}
+      {DispMenu.length>0&&<button
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  navigate("/publish", { state: restId });
+                }}
+              >
+                <span onClick={(item)=>selectMenu(item)}>generate Qr</span>
+              </button>}
+                  
+               
       {AddFlag == false ? (
         DispMenu.map((item, index) => {
+         
           // console.log(item);
           return (
+            
             <div style={{ marginTop: 20 }}>
+           {console.log(item)}
             <div
               style={{ 
             
@@ -274,7 +265,7 @@ console.log(DispMenu,"Dispmenuuuu")
                   <div style={{ marginLeft: 10 }}>
                     <p style={{ marginBottom: -10 }}>Name: {item?.menu}</p>
                     <p style={{ marginBottom: -10 }}>
-                      SpiceId: {item?.SpiceId}
+                      SpiceId: {item?.spice}
                     </p>
                     <p style={{ marginBottom: -10 }}>Price: {item?.price}</p>
                     <p style={{ marginBottom: -10 }}>

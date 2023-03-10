@@ -31,7 +31,6 @@ function App() {
     <div>
   <Navbar/>
 
-      {storedUserID&&<Drawers/>}
         <Routes>
     
           <Route path="/" element={<Home />} />
@@ -45,8 +44,9 @@ function App() {
           <Route path="/cat" element={<Cat/>} />
           <Route path="/brand" element={<Brand />} />
           <Route path="/rest" element={<Restaurant />} />
-          <Route path="/qr" element={<QR />} />
+        
           <Route path="/upload" element={<Upload/>} />
+          <Route path="publish" element={<QR/>}> </Route>
         </Routes>
      
     </div>
