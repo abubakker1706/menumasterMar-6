@@ -29,9 +29,9 @@ function App() {
   }, [storedUserID]);
   return (
     <div>
-    <Navbar/>
+  <Navbar/>
 
-      <Drawers/>
+      {storedUserID&&<Drawers/>}
         <Routes>
     
           <Route path="/" element={<Home />} />
